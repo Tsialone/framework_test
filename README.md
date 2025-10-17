@@ -1,2 +1,1 @@
-# framework_test
-# framework_test
+# extractez le run.zip en dehors du projet test, et lancer la commande ./run.sh
