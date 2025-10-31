@@ -1,16 +1,16 @@
 package apps;
 
-import annotations.Controller;
-import annotations.Url;
+import annotations.ControllerAnnotation;
+import annotations.UrlAnnotation;
 
-@Controller(name = "xxxx")
+@ControllerAnnotation(name = "xxxx")
 public class Test1 {
 
     public Test1() {
 
     }
 
-    @Url(value = "/hello")
+    @UrlAnnotation(value = "/hello")
     public String helloWorld() {
         return "hello";
     }   

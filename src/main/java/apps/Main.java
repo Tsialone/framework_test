@@ -1,73 +1,87 @@
 package apps;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Set;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
-import org.reflections.Reflections;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.scanners.SubTypesScanner;
-import annotations.Controller;
-import annotations.Url;
-import controllers.UrlController;
+import annotations.ControllerAnnotation;
+import annotations.UrlAnnotation;
 
 public class Main {
-    public static void handleRequest(String path) throws Exception {
-        UrlController controller = new UrlController();
 
-        for (Method m : UrlController.class.getDeclaredMethods()) {
-            if (m.isAnnotationPresent(Url.class)) {
-                Url url = m.getAnnotation(Url.class);
-                if (url.value().equals(path)) {
-                    m.invoke(controller);
-                    return;
-                }
-            }
-        }
-        System.out.println("404 - Page non trouvée");
-    }
-
-    public static void handleRequestPackage(String url, String classPath) throws Exception {
-
+    public static void handleRequestPackage(String url, String classPath) {
         try {
-            Reflections reflections = new Reflections(
-                    "apps",
-                    new SubTypesScanner(false),
-                    new TypeAnnotationsScanner());
+            List<Class<?>> classes = getClasses(classPath);
 
-            Set<Class<?>> controllers = reflections.getTypesAnnotatedWith(Controller.class);
+            for (Class<?> controller : classes) {
+                if (controller.isAnnotationPresent(ControllerAnnotation.class)) {
+                    System.out.println("Classe trouvée : " + controller.getName());
 
+                    Object instance = controller.getDeclaredConstructor().newInstance();
 
-            for (Class<?> controller : controllers) {
-                System.out.println("Classe trouvée : " + controller.getName());
-                Object instance = controller.getDeclaredConstructor().newInstance();
-                for (Method m : controller.getDeclaredMethods()) {
-                    if (m.isAnnotationPresent(Url.class)) {
-                        Url uri = m.getAnnotation(Url.class);
-                        if (uri.value().equals(url)) {
-                            Object result = m.invoke(instance);
-                            System.out.println(result);
-                            return;
+                    for (Method m : controller.getDeclaredMethods()) {
+                        if (m.isAnnotationPresent(UrlAnnotation.class)) {
+                            UrlAnnotation uri = m.getAnnotation(UrlAnnotation.class);
+                            if (uri.value().equals(url)) {
+                                Object result = m.invoke(instance);
+                                System.out.println(result);
+                                return;
+                            }
                         }
                     }
                 }
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
 
-        // UrlController controller = new UrlController();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         System.out.println("404 - Page non trouvée");
     }
 
-    public static void main(String[] args) throws Exception {
-        handleRequestPackage("/hello", "apps");
-        // handleRequest("/home");
-        // handleRequest("/contact");
-        // handleRequest("/inconnu");
-        // List<Class<?>> classes = getClasses("apps");
-        // for (Class<?> cls : classes) {
-        // System.out.println(cls.getName());
+    private static List<Class<?>> getClasses(String packageName) throws ClassNotFoundException, IOException {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        String path = packageName.replace('.', '/');
+        Enumeration<URL> resources = classLoader.getResources(path);
 
+        List<File> dirs = new ArrayList<>();
+        while (resources.hasMoreElements()) {
+            URL resource = resources.nextElement();
+            dirs.add(new File(resource.getFile()));
+        }
+
+        ArrayList<Class<?>> classes = new ArrayList<>();
+        for (File directory : dirs) {
+            classes.addAll(findClasses(directory, packageName));
+        }
+        return classes;
+    }
+
+    private static List<Class<?>> findClasses(File directory, String packageName) throws ClassNotFoundException {
+        List<Class<?>> classes = new ArrayList<>();
+        if (!directory.exists()) {
+            return classes;
+        }
+
+        File[] files = directory.listFiles();
+        if (files == null) return classes;
+
+        for (File file : files) {
+            if (file.isDirectory()) {
+                classes.addAll(findClasses(file, packageName + "." + file.getName()));
+            } else if (file.getName().endsWith(".class")) {
+                String className = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
+                classes.add(Class.forName(className));
+            }
+        }
+        return classes;
+    }
+
+    public static void main(String[] args) throws Exception {
+        handleRequestPackage("/", "controllers");
     }
 }

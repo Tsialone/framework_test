@@ -1,9 +1,9 @@
 package apps;
 
 
-import annotations.Controller;
+import annotations.ControllerAnnotation;
 
-@Controller(name = "test")
+@ControllerAnnotation(name = "test")
 public class Test3 {
 
 
