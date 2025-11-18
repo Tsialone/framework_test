@@ -17,7 +17,13 @@
     <servlet>
         <servlet-name>front</servlet-name>
         <servlet-class>servlets.FrontServlet</servlet-class>
+        <init-param>
+            <param-name>packageToScan</param-name>
+            <param-value>apps</param-value>
+        </init-param>
     </servlet>
+
+    
 
     <servlet-mapping>
         <servlet-name>front</servlet-name>
