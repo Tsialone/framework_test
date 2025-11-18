@@ -1,4 +1,6 @@
-apps/Test1.class
+apps/models/Utilisateur.class
+apps/controllers/Test2.class
+apps/models/Departement.class
 apps/Main.class
-apps/Test2.class
-apps/Test3.class
+apps/controllers/Test1.class
+apps/controllers/Test3.class

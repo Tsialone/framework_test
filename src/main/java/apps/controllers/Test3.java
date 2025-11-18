@@ -1,4 +1,4 @@
-package apps;
+package apps.controllers;
 
 
 import annotations.ControllerAnnotation;

@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
 import annotations.ControllerAnnotation;
 import annotations.UrlAnnotation;
+import apps.models.Departement;
+import views.ModelView;
 
 public class Main {
 
@@ -82,6 +85,15 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        handleRequestPackage("/", "controllers");
+        System.out.println("test");
+        List<Departement> departements  = Arrays.asList(
+            new Departement("tay", 1)
+        );
+        
+        ModelView modelView = new ModelView("tay.jsp");
+        modelView.putData("departements", departements);
+
+        List<Departement> depts = (List<Departement>)  modelView.getDataByKey("departements");
+        // handleRequestPackage("/", "controllers");
     }
 }
