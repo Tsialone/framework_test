@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 
 import annotations.ControllerAnnotation;
@@ -71,7 +72,8 @@ public class Main {
         }
 
         File[] files = directory.listFiles();
-        if (files == null) return classes;
+        if (files == null)
+            return classes;
 
         for (File file : files) {
             if (file.isDirectory()) {
@@ -84,16 +86,67 @@ public class Main {
         return classes;
     }
 
-    public static void main(String[] args) throws Exception {
-        System.out.println("test");
-        List<Departement> departements  = Arrays.asList(
-            new Departement("tay", 1)
-        );
-        
-        ModelView modelView = new ModelView("tay.jsp");
-        modelView.putData("departements", departements);
+    public static List<String> splitByStr(String path, String str) {
+        List<String> resp = new ArrayList<>();
+        String[] splited = path.split(str);
+        for (String string : splited) {
+            String trimString = string.trim();
+            if (!trimString.isEmpty() && trimString.length() > 0) {
+                resp.add(trimString);
+            }
+        }
+        return resp;
+    }
 
-        List<Departement> depts = (List<Departement>)  modelView.getDataByKey("departements");
-        // handleRequestPackage("/", "controllers");
+    // doit etre de la forme: key=1
+    public static HashMap<String, Object> getKeyValueByParam(String str) {
+        List<String> splited = splitByStr(str, "\\=");
+        if (splited.size() == 2) {
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put(splited.get(0), splited.get(1));
+            return hashMap;
+        }
+        return null;
+    }
+
+    public static List<HashMap<String, Object>> getKeyValueByParamUrl(String param) {
+        List<HashMap<String, Object>> resp = new ArrayList<>();
+
+        List<String> splited = splitByStr(param, "\\&");
+        for (String string : splited) {
+            resp.add(getKeyValueByParam(string));
+        }
+        return resp;
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        String url = "/hello/jtnbtnryn/tay/vody";
+        
+        String url2 = "/hello/utilisateur?id=1&nom='tay'";
+
+        List<String> splited = splitByStr(url, "/");
+        List<String> splited2 = splitByStr(url2, "\\?");
+
+        List<HashMap<String , Object>> keyValue = getKeyValueByParamUrl(splited2.get(1));
+
+
+        System.out.println(splited);
+        System.out.println(splited2);
+        System.out.println(keyValue.get(1));
+
+
+        // System.out.println("test");
+        // List<Departement> departements = Arrays.asList(
+        // new Departement("tay", 1)
+        // );
+
+        // ModelView modelView = new ModelView("tay.jsp");
+        // modelView.putData("departements", departements);
+
+        // List<Departement> depts = (List<Departement>)
+        // modelView.getDataByKey("departements");
+        // // handleRequestPackage("/", "controllers");
+
     }
 }
