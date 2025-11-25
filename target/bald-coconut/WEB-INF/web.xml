@@ -1,0 +1,32 @@
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+    version="6.0">
+    <!-- filter  -->
+    <!-- <filter>
+        <filter-name>GlobalFilter</filter-name>
+        <filter-class>filters.GlobalFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>GlobalFilter</filter-name>
+        <url-pattern>/*</url-pattern> 
+    </filter-mapping> -->
+
+    <!-- servlet -->
+    <servlet>
+        <servlet-name>front</servlet-name>
+        <servlet-class>servlets.FrontServlet</servlet-class>
+        <init-param>
+            <param-name>packageToScan</param-name>
+            <param-value>apps</param-value>
+        </init-param>
+    </servlet>
+
+    
+
+    <servlet-mapping>
+        <servlet-name>front</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+</web-app>

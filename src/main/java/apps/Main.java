@@ -15,6 +15,8 @@ import annotations.ControllerAnnotation;
 import annotations.UrlAnnotation;
 import apps.models.Departement;
 import utils.KeyValueUtil;
+import utils.MapUtil;
+import utils.ScannerUtil;
 import views.ModelView;
 
 public class Main {
@@ -151,45 +153,14 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        String url = "/utudiants/1/notes";
-        // String temp = "/hello/{id}/{nom}/{prenoms}";
+        String url = "/utudiants/1";
+        String uri = "/utudiants/{id}";
 
-        // String url = "/hello?id=1&nom=popo";
-        String temp = "/utudiants/{id}/notes";
+        HashMap<String , Object> resp = initKey(url, uri, "\\/");
 
 
-        String caca = temp;
+        System.out.println(resp);
 
-        caca = "cccc";
-        System.out.println(temp);
-
-        HashMap<String, Object> test = initKey(url, temp, "\\/");
-
-        System.out.println(test);
-
-        // String url2 = "/hello/utilisateur?id=1&nom='tay'";
-
-        // List<String> splited = splitByStr(url, "/");
-        // List<String> splited2 = splitByStr(url2, "\\?");
-
-        // List<HashMap<String , Object>> keyValue =
-        // getKeyValueByParamUrl(splited2.get(1));
-
-        // System.out.println(splited);
-        // System.out.println(splited2);
-        // System.out.println(keyValue.get(1));
-
-        // System.out.println("test");
-        // List<Departement> departements = Arrays.asList(
-        // new Departement("tay", 1)
-        // );
-
-        // ModelView modelView = new ModelView("tay.jsp");
-        // modelView.putData("departements", departements);
-
-        // List<Departement> depts = (List<Departement>)
-        // modelView.getDataByKey("departements");
-        // // handleRequestPackage("/", "controllers");
 
     }
 }

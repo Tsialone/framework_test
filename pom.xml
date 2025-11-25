@@ -47,8 +47,8 @@
 
     </dependencies>
     <build>
+        <finalName>bald-coconut</finalName>
         <plugins>
-
             <!-- Plugin WAR compatible Java 21 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

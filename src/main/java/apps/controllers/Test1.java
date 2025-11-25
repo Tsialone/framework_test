@@ -8,6 +8,8 @@ import java.util.List;
 import annotations.ControllerAnnotation;
 import annotations.RequestParam;
 import annotations.UrlAnnotation;
+import annotations.UrlGetAnnotation;
+import annotations.UrlPostAnnotation;
 import apps.models.Departement;
 import apps.models.Utilisateur;
 import views.ModelView;
@@ -19,26 +21,42 @@ public class Test1 {
 
     }
 
+    // 3BIS et 6 et 6BIS
     @UrlAnnotation(value = "/hello")
-    public String helloWorld(Integer id , String caca ,   @RequestParam (name =   "toto")  Double prix , LocalDateTime date) {
-        String coco = "\n\nid: " + id  +  "\ncaca: " + caca + "\nprix: " + prix + "\ndate: " + date;
+    @UrlGetAnnotation
+    public String helloWorld(Integer id , String lolo ,   @RequestParam (name =   "toto")  Double prix , LocalDateTime date) {
+        String coco = "\n\nid: " + id  +  "\nlolo: " + lolo + "\nprix: " + prix + "\ndate: " + date;
         
         return coco;
     }
 
-    @UrlAnnotation(value = "/create")
-    public String testPost(Integer id , String nom) {
-        String coco = "\n\nid: " + id  +  "\nnom: " + nom ;
+    @UrlAnnotation(value = "/hello")
+    @UrlPostAnnotation
+    public String helloCreate(Integer id , String lolo ,   @RequestParam (name =   "toto")  Double prix , LocalDateTime date) {
+        String coco = "\nid: " + id  +  "\nlolo: " + lolo + "\nprix: " + prix + "\ndate: " + date;
+        
         return coco;
     }
 
+
+    @UrlAnnotation(value = "/create")
+    @UrlGetAnnotation
+    public String testPost(Integer idtest, String nomtest) {
+        String coco = "\nid: " + idtest  +  "\nnom: " + nomtest ;
+        return coco;
+    }
+
+    //6triers
+    // /bendo/1/notes/1
     @UrlAnnotation(value = "/bendo/{identification}/notes/{value}")
-    public String bendo(@RequestParam (name = "identification") Integer id , Double value) {
+    public String bendo(@RequestParam (name = "identification") Integer id , Double value  ) {
         String coco = "\n\nid: " + id  +  "\nnote: " + value ;
         
         return coco;
     }
 
+
+    // /test/1/
     @UrlAnnotation(value = "/test/{idUtilisateur}/{date}")
     public ModelView test(@RequestParam (name = "idUtilisateur") Integer user , LocalDate date) {
         ModelView mv = new ModelView();
