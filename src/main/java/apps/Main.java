@@ -2,18 +2,22 @@ package apps;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 
-
 import annotations.ControllerAnnotation;
 import annotations.UrlAnnotation;
 import apps.models.Departement;
+import apps.models.Type;
 import utils.KeyValueUtil;
 import utils.MapUtil;
 import utils.ScannerUtil;
@@ -124,7 +128,6 @@ public class Main {
         }
         return resp;
     }
-   
 
     public static HashMap<String, Object> initKey(String uri, String controllerUrl, String regex) {
         List<String> sp1 = splitByStr(uri, regex);
@@ -133,14 +136,15 @@ public class Main {
             return null;
         if (sp1.size() > 1)
             sp1.remove(0);
-            sp2.remove(0);
+        sp2.remove(0);
         System.out.println("sp1: " + sp1);
         System.out.println("sp2: " + sp2);
         HashMap<String, Object> resp = new HashMap<>();
 
         if (regex.equals("\\/")) {
             for (int i = 0; i < sp1.size(); i++) {
-                if (!sp2.get(i).contains("}") || !sp2.get(i).contains("{") ) continue;
+                if (!sp2.get(i).contains("}") || !sp2.get(i).contains("{"))
+                    continue;
                 String newKey = sp2.get(i).replace("}", "").replace("{", "");
                 resp.put(newKey, sp1.get(i));
             }
@@ -151,16 +155,17 @@ public class Main {
         return resp;
     }
 
-    public static void main(String[] args) throws Exception {
+    public static <T> void main(String[] args) throws Exception {
 
-        String url = "/utudiants/1";
-        String uri = "/utudiants/{id}";
+        // ScannerUtil scannerUtil = new ScannerUtil("apps");
+        // HashMap<String , List<MapUtil>> temp = scannerUtil.getMapHash();
 
-        HashMap<String , Object> resp = initKey(url, uri, "\\/");
+        Path p = Paths.get("/home/tsialone/uploads/test.txt");
+        Files.write(p, "Hello world".getBytes());
+        System.out.println("File saved: " + p.toAbsolutePath());
+        System.out.println("Exists: " + Files.exists(p));
 
-
-        System.out.println(resp);
-
+        // System.out.println(temp);
 
     }
 }

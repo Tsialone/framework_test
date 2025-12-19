@@ -1,17 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <p>Hello Home</p>
 
-    <form action="create" method="post">
-        <input type="text" name="id" placeholder="id" >
-        <input type="text" name="nom" placeholder="nom" >
+    <form action="hello" method="post">
+        <p>
+            Id:
+            <input type="number" name="id" placeholder="id">
+        </p>
+        <p>
+            Nom:
+            <input type="text" name="nom" placeholder="nom">
+
+        </p>
+
+        <p>
+            Lolo:
+            <input type="text" name="lolo" placeholder="lolo">
+
+        </p>
+        <p>
+            Genre
+            <select name="genre">
+                <option value="femme">femme</option>
+                <option value="homme">homme</option>
+            </select>
+        </p>
+
+
+        <p>
+            Competence(s):
+            <input type="checkbox" name="competence" value="sociable"> Sociable
+            <input type="checkbox" name="competence" value="discipliné"> Discipliné
+            <input type="checkbox" name="competence" value="sage"> Sage
+        </p>
+
+
+        <p>
+            Marié:
+            <input type="radio" name="estMarie" value="oui"> Oui
+            <input type="radio" name="estMarie" value="non"> Non
+        </p>
+
+
+
         <input type="submit" value="validez">
     </form>
 </body>
+
 </html>
